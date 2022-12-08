@@ -35,6 +35,7 @@ UI와 데이터를 분리하여 프로그램을 구성하거나, UI 필요 없�
 2. 직관성 있고 빠른 개발 지원
 - REST API 정의 및 실행 내용을 하나의 구조에서 정의 가능하도록 지원(포맷 : yaml)
 - 예) POST/GET HTTP method를 통해 DB 입력 및 조회 하는 예제
+
         C-analytics-add-ad-trace:
            desc: 다운로드 페이지 진입 시 추적 값을 등록한다.
            pattern: /analytics/ad
