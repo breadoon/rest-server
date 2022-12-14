@@ -10,4 +10,5 @@ REST API는 다음과 같은 구조를 가지고 실행한 동작을 정의하�
    
 2. Child Element
    - desc : description(예, “first #1”)은 해당 RESI API에 대한 간단한 설명 정보를 기술한다.
+   - pattern: pattern (예, “/testCal/{a_val}/{b_val}/{c_val}”)은 REST API의 구성 패턴을 정의한다. “{}”로 표현되는 부분은 pattern parameter로서 REST API Path내에 가변적인 영역을 지칭한다.
    - 
