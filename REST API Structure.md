@@ -5,6 +5,10 @@ breadoon REST API는 다음과 같은 구조를 가지고 실행한 동작을 �
 
 [구성 요소 설명 ]
 
+0. 사전 인지 사항
+
+[$VAR_TYPE], [$VAR_NAME], 입력 JSON 구조등에 대해서는 문서의 하단에서 설명하도록 한다.
+
 1. ROOT Element
 
    - ID(Identifier)는 별도의 directive를 가지지는 않으며 이후 정의할 구문을 대표하는 유일한 지시자가 된다. 이 대표 값이 중복되어 사용될 경우는 맨 마지막 값을 가지는 정의 내용이 API의 동작 내용으로 사용되므로 중복 여부에 유의하여야 한다. 
@@ -29,4 +33,39 @@ breadoon REST API는 다음과 같은 구조를 가지고 실행한 동작을 �
 
 3. Action Element
 
-   - 
+   3.1 builtIn : 시스템 제공 함수 또는 개발자 구현 함수을 호출한다.
+   
+       - name : name은 미리 구현된 함수의 이름(alias name)을 지칭한다. 개발자 구현 함수의 경우는 사용자가 정의한 임의의 이름을 사용할 수 있다.
+       
+       - saveAs : 동작의 결과를 저장할 이름을 지정하게 되며 이 값을 기정하는 경우(ex: test) 향후 b.test와 값이 지정된 값을 통해 향후 사용할 수 있도록 한다.
+
+       - params : 함수에서 사용하는 파라미터를 정의한다. 이때 대응되는 값은 파라미터 정의 [$VAR_TYPE] [$VAR_NAME]를 이용한다.
+      
+   3.2 sql : DB Query를 실행하기 위한 구조를 설정한다.
+
+       - type : READ(SELECT) / WRITE(INSERT, UPDATE, DELETE)의 두 가지 실행 타입을 지정한다.
+       
+       - query : SQL Query를 정의한다
+       
+       - useMybatis : myBatis 형식의 query를 사용할 것인지를 결정한다. 이 경우 파라미터 이름 또한 mybatis 매핑명으로 치환해야 한다.
+
+       - mustCommit: query를 실행하면서 뒷 부분에서의 오류에 의해 문제가 발생하더라도 해당 지점까지는 무조건 DB에 해당 기록을 남겨야 하는 경우에 사용
+
+       - selectOne : 결과 목록이 아닌 단일 객체로 결과를 반환 받고자 하는 경우에 사용
+
+       - saveAs : 동작의 결과를 저장할 이름을 지정하게 되며 이 값을 기정하는 경우(ex: test) 향후 f.test와 값이 지정된 값을 통해 향후 사용할 수 있도록 한다.
+
+       - params : sql에서 사용하는 파라미터를 정의한다. 이때 대응되는 값은 파라미터 정의 [$VAR_TYPE] [$VAR_NAME]를 이용한다.
+
+   3.3 actionBlock : 여러개의 blocklet을 조합하여 하나의 기능을 수행할 때 사용
+
+       - seqNo : 각 blocklet에 부여하는 번호로서 숫자와 문자 모두 사용 가능하며 조건에 따라 분기 처리시 호출될 지점을 지칭하게 된다.
+       
+       - componentType : blocklet의 타입을 지정하게 되며 built-in/sql 두 가지 값을 가질 수 있으며 이 선택에 따라 다시 Action Element인 sql과 builtIn을 정의할 수 있다.
+
+
+4. Parameter
+
+   4.1 parameter data type
+   
+   파라미터의 데이터 타입은 다음의 
