@@ -66,6 +66,18 @@ breadoon REST API는 다음과 같은 구조를 가지고 실행한 동작을 �
 
 4. Parameter
 
-   4.1 parameter data type
+   4.1 parameter data type([$VAR_TYPE])
    
-   파라미터의 데이터 타입은 다음의 
+   파라미터의 데이터 타입은 다음의 (!!int), (!!long), (!!float), (!!double), (!!string), (!!interface)의 6가지 타입을 가질 수 있다.
+   
+       - (!!int) : JAVA의 int에 대응
+
+       - (!!long) : JAVA의 long에 대응
+
+       - (!!float) : JAVA의 float에 대응
+
+       - (!!double) : JAVA의 double에 대응
+
+       - (!!int) : JAVA의 int에 대응
+
+       - (!!interface) : JAVA의 Object에 대응
