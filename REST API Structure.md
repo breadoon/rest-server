@@ -81,3 +81,64 @@ breadoon REST API는 다음과 같은 구조를 가지고 실행한 동작을 �
        - (!!int) : JAVA의 int에 대응
 
        - (!!interface) : JAVA의 Object에 대응
+
+   4.2 parameter type scope([$VAR_NAME]의 prefix)
+   
+   파라미터에 사용되는 타입은 다음과 같은 형태가 존재하며 각각 다음의 영역을 담당하게 된다.
+   
+       - Pattern parameter : “p.”
+
+         Child Element인 “pattern” 구성 요소로서 “{}”로 둘러싸인 파라미터 값을 지칭한다. pattern에서 “{a_val}”로 지정할 경우 parameter에서는 “p.a_val”로 해당 값을 호출하여 사용할 수 있다.
+         
+       - Request parameter : “r.” 
+
+         Child Element인 “bodyType” 의해 결정되는 파라미터 값을 지칭한다. bodyType이 “URLENCODE”인 경우에는 “?a=123&b=abc”와 같이 URL 뒷부분에 지정되는 파라미터에 대한 값을 사용할 수 있는데 이때는 “r.a”, “r.b”을 통해 접근이 가능하며 "JSON"인 경우에는 다음과 같은 형태로 값을 지정할 수 있다.
+         
+         {
+           "sub_func": "",
+           "data": {
+             "email_addr": "user1@samplesite.com",
+             "passwd": "user1pass"
+            }
+         }
+         
+         위의 예에서는 "data" 아래의 구조를 통해 접근이 가능하며 “r.email_addr”, “r.passwd”의 형태로 호출이 가능하며 "data" 아래의 형태에 따라 JSON 호출 구조에 의해 자유롭게 확장이 가능하다.
+ 
+         
+         
+
+       - System parameter : “s.”
+
+         breadoon API에서 제공하는 내장 변수로 "s.UID"를 통해 32자리 UUID를 제공 받을 수 있도록 구현되어 있으며 향후 필요에 따라 확장될 예정이다.
+
+       - Sql Runtime parameter : “f.”
+       
+         sql 실행을 통해 얻은 결과를 보유하고 있으며 sql 컬럼 "a"라는 컬럼을 결과로 얻었을 경우 "f.a"를 통해 해당 결과를 다음 Action Element의 blocklet의 파라미터로 사용할 수 있다.
+
+       - BuiltIn Runtime parameter : “b.”
+       
+         builtIn 실행을 통해 얻은 결과를 보유하고 있으며 "test"라는 builtIn의 실행 결과가 int와 같은 단순 타입인 경우는 "b.test"와 같이 호출하면 해당 값을 사용할 수 있으며 해당 결과값이 Object를 상속한 객체일 경우는 해당 타입에 따른 호출 구조를 사용할 수 있다.
+
+       - User Saved parameter : “u.”
+
+         sql 또는 builtIn 실행을 통해 얻은 결과는 향후 사용을 위해 Action Element의 "saveAs"를 통해 별도의 이름으로 저장할 수 있으며 해당 이름이 "saved"일 경우 "u.saved"를 시작으로 하는 path를 통해 접근이 가능하다
+         
+       - Environment parameter : “e.”
+
+         시스템 환경 변수로서 config/runConfig.yml 해당 값을 설정하여 사용할 수 있으며 yaml 파일 구조상의 객체를 설계를 통해 key/value를 설계하고 접근할 수 있다.
+
+5. 내장 함수 
+
+
+
+6. 응답 구조(Response)
+
+   응답 구조는 다음과 같은 형태를 가지게 되며 임의의 코드 및 메시지를 사용할 경우는 SendResponse 시스템 내장 함수를 통해 별도로 생성하여 사용할 수도 있다.
+   
+   {"Status":””,"Message":"","Result":[{"first":"aa","second":"bb"}]}
+   
+      - Status : 처리된 결과의 상태를 나타내며 공백열은 오류 없이 정상적인 처리를 의미하며 공백열이 아닌 ID 값은 오류를 발생시킨 설정 Identifier를 지칭한다.
+      
+      - Message : Status가 공백열인 경우(오류가 없는 경우)는 공백열을 가지게 되며 Status가 공백열이 아닌 경우는 해당 오류 메시지가 표시되게 된다.
+
+      - Result : API를 실행에 의한 결과값을 가지게 된다. 
