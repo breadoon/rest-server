@@ -129,7 +129,15 @@ breadoon REST API는 다음과 같은 구조를 가지고 실행한 동작을 �
 
 5. 내장 함수 
 
+   REST API 실행 도중 제어를 위한 별도의 내장 함수가 필요하게 되며 현재 다음과 같은 내장 함수들이 제공되고 있으며 그 목록은 다음과 같으며 자세한 사용예를 별도의 적용 예제를 통해 확인 하도록 한다.
 
+   - RollbackExit : DB 관련 모든 동작을 rollback 시키고 빠져 나간다. 별도의 Status, Message, Result를 사용할 수 있다.
+
+   - SendResponse : DB 관련 모든 동작을 commit하고 빠져 나간다.  별도의 Status, Message, Result를 사용할 수 있다.
+
+   - SaveAsUserObject : 현재까지의 결과를 별도의 변수값들 User Saved parameter 영역에 저장한다.
+
+   - NextPipeDecider : javascript 엔진에 의해 조건을 평가한 후 해당 스크립트의 반환 blocklet id로 분기할 수 있는 기능을 제공한다.
 
 6. 응답 구조(Response)
 
