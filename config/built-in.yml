@@ -1,0 +1,18 @@
+#######################
+# BUILT IN 함수 정의
+# type : 0 -> "xyz.breadoon.rest.processing.builtin.BuiltInHandlerIF"를 implements
+#         1 -> "xyz.breadoon.rest.processing.builtin.BuiltInHandlerAbstract"를 extend, 파일 처리를 위한 객체 
+#######################
+builtIns:
+    - name : login
+      desc : 테스트 로그인 함수
+      className : xyz.breadoon.rest.processing.builtin.impl.LoginBuiltIn
+      type : 0
+    - name : newRestApi
+      desc : 새로운 REST API 추가
+      className : xyz.breadoon.rest.processing.builtin.impl.NewRestApiBuiltIn
+      type : 0
+    - name : fileUploadTest
+      desc : File upload Test
+      className : xyz.breadoon.rest.processing.builtin.impl.FileUploadTester
+      type : 1

@@ -1,0 +1,112 @@
+#######################
+# default config
+#######################
+port: 8181
+
+
+# isDev가 "true"인 경우 autoReloadDuration 설정 주기로 REST 설정 파일의 변화를 감지하여 실시간으로 API 변경을 반영한다.
+# 개발 테스트에 적합한 방식이며 운영 모드에서 사용할 경우는 부하 발생과 실시간 수정으로 인한 오류가 발생할 수도 있다.
+
+isDev: true
+
+# 개발 환경일 경우 REST 설정 파일을 자동으로 다시 읽어 들이는 시간 term, millisecond, default 5000(5초)
+autoReloadDuration: 7000
+
+version: v1.0 
+
+#######################
+# db connect config
+# driverClassName: com.mysql.cj.jdbc.Driver(example)
+#######################
+db:
+  driverClassName: your.jdbc.class 
+  user: dbuser
+  password: dbuser_password
+  url: jdbc_url
+  maxIdleConns: 10
+  maxActiveConns: 100
+  maxWaitMillis: 10000
+  validationQuery: select 1
+
+#######################
+# logging properties
+#
+# filePath: "e:/log"  -> 로그 파일이 저장될 디렉토리
+# filePrefix: "breadoon" -> 로그 파일 시작명, 실제 파일은 "breadoon_{YYYYMMDD}.log"와 같은 형태로 생성된다.
+# 
+# logLvel은 : sql query 정보 포함인 경우와 그렇지 않은 경우로 나눈다.
+#             0의 경우는 미포함, 1은 포함
+# accessLogLevel은 다음과 같이 정의된다.
+# 0 : NORMAL -> timestamp,
+#	            remoteClient,
+#	            method,
+#	            uri,
+#	            httpVersion,
+#	            status,
+#	            contentLength,
+#	            referrer,
+#	            userAgent,
+#	            elaspedTime,
+#	            body
+# 1 : SHORT -> 0번 항목에서 body 항목 제거
+# 2 : TINY -> remoteClient,
+#	            method,
+#	            uri,
+#	            status,
+#	            contentLength
+#######################
+logging: 
+  # use dir path
+  filePath: "e:/log"
+  filePrefix: "breadoon"
+  logLevel: 1
+  accessLogLevel: 2
+  
+#######################
+# FILE UPLOAD
+# 파일 업로드를 사용하기 위해서는 tempPath가 공백열이 아니고 maxSize가 지정되어야 한다.
+# maxSize(bytes) : 업로드할 파일의 최대 허용 용량
+#######################
+fileUpload: 
+  # temporary file location
+  tempPath: "e:/upload_tmp"
+  maxSize: 102400
+  
+#######################
+# COOKIE 설정
+# name : 쿠키 이름
+# domain : 쿠키 도메인명
+# maxAge : 쿠기의 최대 보존 시간 설정(seconds) 60(1분) * 60(1시간) * 24(1일) * 30(1달) = 2592000
+#######################
+cookieConfig:
+    name : your_cookie_name
+    domain : your_cookie_domain
+    maxAge : 2592000
+
+
+#######################
+# 실행 환경 동적 변수 설정
+# 상위 설정인 "isDev"의 값이 "true"인 경우는 "dev"의 하위의 객체를 환경 변수로 사용하고 "false"인 경우는 "op"의 하위 객체를 사용할 수 있다.
+# 
+#######################
+environmentVariable:
+    dev: 
+        your_attribute: 
+            your_sub_attribute_name: your_value
+        
+    op: 
+        your_attribute: 
+            your_sub_attribute_name: your_value
+            
+            
+#######################
+# CORS 관련 설정 ( 브라우저를 통해 API 서버에 접근할 때 허용할 ORIGIN 정보를  설정한다. )
+# domain : 허용하고자 하는 도메인의 정보
+# type : 0 -> exact(정확히 매칭되는 경우만 허용), 1 -> postfix(해당 문자열로 끝나는 경우는 모두 허용, 포트 포함)
+#######################
+cors:
+    - domain: http://your_domain_name
+      type: 0
+    - domain: your_domain_name
+      type: 1
+          

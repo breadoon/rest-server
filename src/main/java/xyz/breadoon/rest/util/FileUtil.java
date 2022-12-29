@@ -1,0 +1,45 @@
+/*******************************************************************************
+ * This file is part of the breadoon project.
+ * Copyright (c) 2022-2022 breadoon@gmail.com
+ * Authors: breadoon@gmail.com.
+ * This program is offered under a commercial and under the AGPL license.
+ * For commercial licensing, contact breadoon@gmail.com.  For AGPL licensing, see below.
+ * AGPL licensing:
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *******************************************************************************/
+package xyz.breadoon.rest.util;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.util.Arrays;
+
+import org.apache.commons.io.comparator.LastModifiedFileComparator;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+
+public class FileUtil {
+
+	public static long findLastModifiedInDir(String sdir) {
+		return findLastModifiedInDir(new File(sdir));
+	}
+	
+	public static long findLastModifiedInDir(File dir) {
+	    if (dir.isDirectory()) {
+	        File[] dirFiles = dir.listFiles((FileFilter)FileFilterUtils.fileFileFilter());
+	        if (dirFiles != null && dirFiles.length > 0) {
+	            Arrays.sort(dirFiles, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+	            return dirFiles[0].lastModified();
+	        }
+	     }
+
+	    return 0;
+	}
+}

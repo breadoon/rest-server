@@ -1,0 +1,59 @@
+C-analytics-add-ad-trace:
+  desc: 다운로드 페이지 진입 시 추적 값을 등록한다.
+  pattern: /analytics/ad
+  method : POST
+  bodyType: JSON
+  needAuth: false
+  actionType : sql
+  sql:
+    type: WRITE
+    query: >-
+      INSERT INTO tb_analytics_ad
+      (uuid, from_source, from_medium, from_campaign, creation_time)
+      VALUES ( ?, ?, ?, ?, now(6))
+    params :
+      - (!!string) s.UID
+      - (!!string) r.from_source
+      - (!!string) r.from_medium
+      - (!!string) r.from_campaign
+
+R-analytics-ad-trace:
+  desc: 다운로드 페이지 진입 추적 값을 조회한다.
+  pattern: /analytics/ad
+  method : GET
+  bodyType: URLENCODE
+  needAuth: false
+  actionType : sql
+  sql:
+    type: READ
+    query: >-
+      SELECT *
+      FROM tb_analytics_ad
+      ORDER BY creation_time desc
+      LIMIT ?,?
+    params :
+      - (!!string) r.fromIdx
+      - (!!string) r.dataCount
+
+R-analytics-ad-trace-q:byCreationTime:
+  desc: 다운로드 페이지 진입 추적 값을 날짜 단위로 조회한다.
+  pattern: /analytics/ad
+  method : INLINE
+  bodyType: URLENCODE
+  needAuth: false
+  actionType : sql
+  sql:
+    type: READ
+    query: >-
+      SELECT *
+      FROM tb_analytics_ad
+      WHERE DATE_FORMAT(creation_time, '%Y-%m-%d') >= DATE_FORMAT(?, '%Y-%m-%d') AND
+      DATE_FORMAT(creation_time, '%Y-%m-%d') <= DATE_FORMAT(?, '%Y-%m-%d')
+      ORDER BY creation_time desc
+      LIMIT ?,?
+    params :
+      - (!!string) r.startDate
+      - (!!string) r.endDate
+      - (!!string) r.fromIdx
+      - (!!string) r.dataCount
+
