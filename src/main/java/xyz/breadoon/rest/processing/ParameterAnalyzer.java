@@ -389,12 +389,16 @@ public class ParameterAnalyzer {
 	        } else if ( "u.".equalsIgnoreCase(valueTypeStr) ) {	// user saved Object value 
 	        	
 	        	int idx = valueNameStr.indexOf(".");
+	        	String userObjName = null;
+	        	String userObjPath = null;
 	        	
-	        	if ( idx == -1 ) 
-	        		throw new InputParamException("UserSavedObject name is not found.");
-	        	
-	        	String userObjName = valueNameStr.substring(0, idx);
-	        	String userObjPath = valueNameStr.substring(idx).trim();
+	        	if ( idx == -1 ) {
+	        		userObjName = valueNameStr;
+	        		userObjPath = "";
+	        	} else {
+		        	userObjName = valueNameStr.substring(0, idx);
+		        	userObjPath = valueNameStr.substring(idx).trim();
+	        	}
 	        	
 	        	ctx =  runtimeInfo.getUserSavedObjs().get(userObjName);
 	        	
@@ -410,12 +414,17 @@ public class ParameterAnalyzer {
 			} else if ( "b.".equalsIgnoreCase(valueTypeStr) ) {	// built-in function return 
 	        	
 	        	int idx = valueNameStr.indexOf(".");
+	        	String builtInFuncName = null;
+	        	String builtInObjPath = null;
 	        	
-	        	if ( idx == -1 ) 
-	        		throw new InputParamException("BuiltIn function name is not found.");
+	        	if ( idx == -1 ) {
+	        		builtInFuncName = valueNameStr;
+		        	builtInObjPath = "";
+	        	} else {
+	        		builtInFuncName = valueNameStr.substring(0, idx);
+		        	builtInObjPath = valueNameStr.substring(idx).trim();
+	        	}
 	        	
-	        	String builtInFuncName = valueNameStr.substring(0, idx);
-	        	String builtInObjPath = valueNameStr.substring(idx).trim();
 	        	
 	        	ctx =  runtimeInfo.getBuiltInResults().get(builtInFuncName);
 	        	
@@ -428,6 +437,7 @@ public class ParameterAnalyzer {
 	        		throw new InputParamException(paramName + " : " + e.getMessage());
 	        	}
 			} 
+
 
 	        
         }
